@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gemini/features/home/presentation/views/widgets/chat_bubble.dart';
 import 'package:gemini/features/home/presentation/views/widgets/chat_bubble_for_the_chatbot.dart';
 
-class ChatListBuilder extends StatelessWidget {
-  const ChatListBuilder({
+class ChatListWidget extends StatelessWidget {
+  const ChatListWidget({
     super.key,
     required this.messages,
   });
@@ -12,7 +12,7 @@ class ChatListBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      controller: ChatListBuilder.controller,
+      controller: ChatListWidget.controller,
       reverse: true,
       itemCount: messages.length,
       itemBuilder: (context, index) =>
