@@ -11,34 +11,29 @@ class CustomSendIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: BlocProvider.of<GeminiCubit>(context).controller.text.isEmpty
-          ? null
-          : () async {
-              BlocProvider.of<GeminiCubit>(context).message =
-                  BlocProvider.of<GeminiCubit>(context).controller.text;
-              BlocProvider.of<GeminiCubit>(context).focusNode.unfocus();
-              BlocProvider.of<GeminiCubit>(context).controller.clear();
-              BlocProvider.of<GeminiCubit>(context).messHistory.add(
-                {
-                  'role': 'USER',
-                  'message': BlocProvider.of<GeminiCubit>(context).message
-                },
-              );
-
-              context.read<SpeechCubit>().deleteMessage();
-
-              await BlocProvider.of<GeminiCubit>(context)
-                  .chat(message: BlocProvider.of<GeminiCubit>(context).message);
-
-              // cubit.messHistory.add({
-              //   'role': 'CHATBOT',
-              //   'message': controller.text
-              // });
-            },
+      onPressed: () => onPress(context),
       icon: const Icon(
         Icons.send,
         color: kPrimaryColor,
       ),
     );
+  }
+
+  void onPress(BuildContext context) async {
+    if (BlocProvider.of<GeminiCubit>(context).controller.text.isNotEmpty) {
+      BlocProvider.of<GeminiCubit>(context).message =
+          BlocProvider.of<GeminiCubit>(context).controller.text;
+      BlocProvider.of<GeminiCubit>(context).focusNode.unfocus();
+      BlocProvider.of<GeminiCubit>(context).controller.clear();
+      BlocProvider.of<GeminiCubit>(context).messHistory.add(
+        {
+          'role': 'USER',
+          'message': BlocProvider.of<GeminiCubit>(context).message
+        },
+      );
+      context.read<SpeechCubit>().deleteMessage();
+      await BlocProvider.of<GeminiCubit>(context)
+          .chat(message: BlocProvider.of<GeminiCubit>(context).message);
+    }
   }
 }
