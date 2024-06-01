@@ -11,28 +11,30 @@ class CustomSendIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () async {
-        BlocProvider.of<GeminiCubit>(context).message =
-            BlocProvider.of<GeminiCubit>(context).controller.text;
-        BlocProvider.of<GeminiCubit>(context).focusNode.unfocus();
-        BlocProvider.of<GeminiCubit>(context).controller.clear();
-        BlocProvider.of<GeminiCubit>(context).messHistory.add(
-          {
-            'role': 'USER',
-            'message': BlocProvider.of<GeminiCubit>(context).message
-          },
-        );
+      onPressed: BlocProvider.of<GeminiCubit>(context).controller.text.isEmpty
+          ? null
+          : () async {
+              BlocProvider.of<GeminiCubit>(context).message =
+                  BlocProvider.of<GeminiCubit>(context).controller.text;
+              BlocProvider.of<GeminiCubit>(context).focusNode.unfocus();
+              BlocProvider.of<GeminiCubit>(context).controller.clear();
+              BlocProvider.of<GeminiCubit>(context).messHistory.add(
+                {
+                  'role': 'USER',
+                  'message': BlocProvider.of<GeminiCubit>(context).message
+                },
+              );
 
-        context.read<SpeechCubit>().deleteMessage();
+              context.read<SpeechCubit>().deleteMessage();
 
-        await BlocProvider.of<GeminiCubit>(context)
-            .chat(message: BlocProvider.of<GeminiCubit>(context).message);
+              await BlocProvider.of<GeminiCubit>(context)
+                  .chat(message: BlocProvider.of<GeminiCubit>(context).message);
 
-        // cubit.messHistory.add({
-        //   'role': 'CHATBOT',
-        //   'message': controller.text
-        // });
-      },
+              // cubit.messHistory.add({
+              //   'role': 'CHATBOT',
+              //   'message': controller.text
+              // });
+            },
       icon: const Icon(
         Icons.send,
         color: kPrimaryColor,
