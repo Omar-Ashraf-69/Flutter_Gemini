@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:gemini/core/utils/api_keys.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
-import 'package:meta/meta.dart';
 
 part 'gemini_cubit_state.dart';
 
